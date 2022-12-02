@@ -1,5 +1,28 @@
 fun main() {
+    /**
+        A = X = Rock
+        B = Y = Paper
+        C = Z = Scissors
 
+        Score:
+            1 for Rock, 2 for Paper, and 3 for Scissors
+            0 if you lost, 3 if the round was a draw, and 6 if you won
+            S: Selection, R: Result
+
+        Permutations:
+                  S   R
+            A X = 1 + 3 = 4
+            A Y = 2 + 6 = 8
+            A Z = 3 + 0 = 3
+
+            B X = 1 + 0 = 1
+            B Y = 2 + 3 = 5
+            B Z = 3 + 6 = 9
+
+            C X = 1 + 6 = 7
+            C Y = 2 + 0 = 2
+            C Z = 3 + 3 = 6
+     */
     val part1Hands = mapOf(
         "A X" to 4,
         "A Y" to 8,
@@ -12,6 +35,27 @@ fun main() {
         "C Z" to 6
     )
 
+    /**
+        X = Lose
+        Y = Draw
+        Z = Win
+
+        S: Selection, R: Result
+
+        Permutations:
+                  R   S
+            A X = 0 + 3 = 3
+            A Y = 3 + 1 = 4
+            A Z = 6 + 2 = 8
+
+            B X = 0 + 1 = 1
+            B Y = 3 + 2 = 5
+            B Z = 6 + 3 = 9
+
+            C X = 0 + 2 = 2
+            C Y = 3 + 3 = 6
+            C Z = 6 + 1 = 7
+     */
     val part2Hands = mapOf(
         "A X" to 3,
         "A Y" to 4,

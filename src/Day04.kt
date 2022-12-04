@@ -1,12 +1,12 @@
 fun main() {
-    fun String.toIntRange(delimiter: Char = '-'): IntRange = split(delimiter)
-        .let { sections ->
-            IntRange(sections.first().toInt(), sections.last().toInt())
+    fun String.toIntRange(delimiter: Char = '-') =
+        split(delimiter).let { (first, second) ->
+            IntRange(first.toInt(), second.toInt())
         }
 
-    fun String.toSectionsPair() = split(',')
-        .let {
-            Pair(it.first().toIntRange(), it.last().toIntRange())
+    fun String.toSectionsPair() =
+        split(',').let { (first, second) ->
+            Pair(first.toIntRange(), second.toIntRange())
         }
 
     fun Pair<IntRange, IntRange>.inclusion(): Boolean =

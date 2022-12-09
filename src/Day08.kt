@@ -9,37 +9,29 @@ fun main() {
         return grid
     }
 
+    fun isTreeVisible(tree: Int, index: Int, size: Int, next: (index: Int) -> Int): Boolean {
+        var start = 0; var end = size
+        while (index in (start + 1) until end) {
+            val startVal = next(start); val endVal = next(end)
+            if (startVal >= tree && endVal >= tree)
+                return false
+            if (startVal < tree) start++
+            if (endVal < tree) end--
+        }
+        return true
+    }
+
     fun countVisibleTrees(grid: List<List<Int>>): Int {
         var visibleTrees = 0
-        for (i in 1 until grid.size-1) {
-            for (j in 1 until grid.first().size-1) {
-
-                var visible = true
+        val n = grid.size-1
+        val m = grid.first().size-1
+        for (i in 1 until n) {
+            for (j in 1 until m) {
                 val tree = grid[i][j]
-                var t = 0; var b = grid.size-1
-                while (i in (t + 1) until b && visible) {
-                    if (grid[t][j] >= tree && grid[b][j] >= tree) {
-                        visible = false
-                        break
-                    }
-                    if (grid[t][j] < tree) t++
-                    if (grid[b][j] < tree) b--
+                if (isTreeVisible(tree, i, n) { c -> grid[c][j] }
+                    || isTreeVisible(tree, j, m) { r -> grid[i][r] }) {
+                    visibleTrees++
                 }
-
-                if (!visible) {
-                    visible = true
-                    var l = 0; var r = grid.first().size-1
-                    while (j in (l + 1) until r && visible) {
-                        if (grid[i][l] >= tree && grid[i][r] >= tree) {
-                            visible = false
-                            break
-                        }
-                        if (grid[i][l] < tree) l++
-                        if (grid[i][r] < tree) r--
-                    }
-                }
-
-                if (visible) visibleTrees++
             }
         }
         return ((grid.size + grid.first().size - 2) * 2) + visibleTrees

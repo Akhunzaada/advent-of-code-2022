@@ -28,26 +28,41 @@ fun main() {
         return Pair(delta, steps.toInt())
     }
 
-    fun part1(input: List<String>): Int {
-        val visited = mutableSetOf<Point>()
-        val head = Point(0, 0)
-        val tail = Point(0, 0)
-        input.forEach {
+    fun List<String>.directions(move: (delta: Point) -> Unit) {
+        forEach {
             it.direction().let { (delta, steps) ->
                 repeat(steps) {
-                    head moveTo delta
-                    tail follow head
-                    visited.add(tail.copy())
+                    move(delta)
                 }
             }
+        }
+    }
+
+    fun positionsVisitedByTail(input: List<String>, ropeKnots: Int): Int {
+        val visited = mutableSetOf<Point>()
+        val knots = MutableList(ropeKnots) { Point(0, 0) }
+        input.directions {
+            knots.first() moveTo it
+            knots.windowed(2) {
+                it.component2() follow it.component1()
+            }
+            visited.add(knots.last().copy())
         }
         return visited.count()
     }
 
+    fun part1(input: List<String>) = positionsVisitedByTail(input, 2)
+
+    fun part2(input: List<String>) = positionsVisitedByTail(input, 10)
+
     // test if implementation meets criteria from the description, like:
     val testInput = readInput("Day09_test")
     check(part1(testInput) == 13)
+    check(part2(testInput) == 1)
+    val testInput2 = readInput("Day09_test2")
+    check(part2(testInput2) == 36)
 
     val input = readInput("Day09")
     println(part1(input))
+    println(part2(input))
 }
